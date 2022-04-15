@@ -3,17 +3,19 @@ package me.sherbaev.espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withTagKey
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
-
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import org.junit.Rule
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -32,27 +34,20 @@ class ExampleInstrumentedTest {
         onView(allOf(withId(R.id.titleTextView), withText(R.string.app_name))).check(matches(isDisplayed()))
     }
 
-
     @Test
     fun tapOnIncludedLayout() {
-        onView(withId(R.id.adviceRoot)).check(matches(isDisplayed())).perform(click())
+        onView(withId(R.id.deviceList))
+            .check(matches(isDisplayed()))
+            .perform(click())
     }
 
     @Test
     fun tapOnIncludedLayoutWithParent() {
-        onView(allOf(withId(R.id.adviceRoot), withParent(withId(R.id.deviceList)))).check(
-            matches(
-                isDisplayed()
-            )
-        ).perform(click())
+        onView(allOf(withId(R.id.deviceList), isDisplayed())).perform(click())
     }
 
     @Test
     fun tapOnIncludedLayoutWithTag() {
-        onView(allOf(withId(R.id.adviceRoot), withTagKey(R.string.app_name))).check(
-            matches(
-                isDisplayed()
-            )
-        ).perform(click())
+        onView(allOf(withTagValue(`is`("espresso")), isDisplayed())).perform(click())
     }
 }
